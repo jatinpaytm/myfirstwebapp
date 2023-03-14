@@ -29,11 +29,19 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- we can use H2 database .. by adding the below dependency -->
+		<!-- we are using Mysql now .. so commenting the H2 database dependency
+		 // we can use H2 database .. by adding the below dependency
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<!-- don't want h2 database to be part of Jar file .. so kept Runtime -->
+			 // don't want h2 database to be part of Jar file .. so kept Runtime
+			<scope>runtime</scope>
+		</dependency>  -->
+
+		<!-- Now using MySql database instead of H2 database -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 
