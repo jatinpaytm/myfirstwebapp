@@ -14,22 +14,24 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import java.time.LocalDate;
 import java.util.List;
 
-// @Controller  // commented out this so that it uses TodoControllerJpa.java   .. and put this class as backup
+@Controller
 @SessionAttributes("name")
-public class TodoController {
-
-    public TodoController(TodoService todoService) {
+public class TodoControllerJpa {
+    public TodoControllerJpa(TodoService todoService,TodoRepository todoRepository) {  // autowired using constructor
         super();
         this.todoService = todoService;
+        this.todoRepository = todoRepository;
     }
 
     private TodoService todoService;
+
+    private TodoRepository todoRepository;
 
 
     @RequestMapping("list-todos")
     public String listAllTodos(ModelMap model) {
         String username = getLoggedinUsername(model);
-        List<Todo> todos = todoService.findByUsername(username);
+        List<Todo> todos = todoRepository.findByUsername(username);
         model.addAttribute("todos", todos);
 
         return "listTodos";
@@ -52,7 +54,7 @@ public class TodoController {
         }
         String username = getLoggedinUsername(model);
         todoService.addTodo(username, todo.getDescription(),
-                todo.getTargetDate(), false); // todo.getTargetDate() takes date from user
+                todo.getTargetDate(), false);
         return "redirect:list-todos";
     }
 
@@ -90,5 +92,4 @@ public class TodoController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
-
 }

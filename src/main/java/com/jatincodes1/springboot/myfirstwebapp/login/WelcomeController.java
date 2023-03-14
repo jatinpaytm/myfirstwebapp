@@ -2,6 +2,8 @@ package com.jatincodes1.springboot.myfirstwebapp.login;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +13,19 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("name") // this will ensure a session is maintained when you are changing the html pages
-public class LoginController {
+public class WelcomeController {
+
+    // login will be handled by Spring Security .. We dont need to take care of it
+    @RequestMapping(value="/",method = RequestMethod.GET)
+    public String gotoWelcomePage(ModelMap model) {
+        model.put("name", getLoggedinUsername());
+        return "welcome";
+    }
+
+    private String getLoggedinUsername(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
 
     // below is used in debugging
     //private Logger logger = LoggerFactory.getLogger(getClass());
@@ -34,7 +48,9 @@ public class LoginController {
 //        return "login";
 //    }
 
+    // the below code is not needed now because of Spring Security
 
+    /*
     private AuthenticationService authenticationService;
 
     public LoginController(AuthenticationService authenticationService){
@@ -42,6 +58,14 @@ public class LoginController {
         this.authenticationService=authenticationService;
     }
 
+     */
+
+
+
+
+
+// the below code is not needed now because of Spring Security
+    /*
     @RequestMapping(value="login",method = RequestMethod.GET)
     public String gotoLoginPage() {
 
@@ -67,4 +91,6 @@ public class LoginController {
         return "login";
 
     }
+
+     */
 }

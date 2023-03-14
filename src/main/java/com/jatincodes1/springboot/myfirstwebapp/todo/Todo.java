@@ -1,12 +1,29 @@
 package com.jatincodes1.springboot.myfirstwebapp.todo;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.util.List;
+
+/**
+ * JPA allows to map your bean to database using @Entity and @Id
+ * It automatically creates a database schema in H2 using above things
+ */
+
 
 //Database (MySQL)
 //Static List of todos => Database (H2, MySQL)
 
+@Entity
 public class Todo {
+
+    public Todo(){  // add this otherwise it will give Error
+
+    }
 
 
     public Todo(int id, String username, String description, LocalDate targetDate, boolean done) {
@@ -18,8 +35,14 @@ public class Todo {
         this.done = done;
     }
 
+    @Id
+    @GeneratedValue  // used to generate a sequence
     private int id;
+
+    //@Column(name="name")  // this will map username to name of database
     private String username;
+
+    @Size(min=10,message="Enter atleast 10 characters")
     private String description;
     private LocalDate targetDate;
     private boolean done;
